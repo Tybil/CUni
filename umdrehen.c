@@ -17,5 +17,5 @@ int main(void){
     for(int i = z-1;i>=0;i--){
         printf("%i\n",input[i]);
     }
-    
+    free(input);
 }
