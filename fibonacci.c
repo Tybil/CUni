@@ -1,12 +1,6 @@
 #include <stdio.h>
-
-int main(void) {
-
-
-}
-
-int fibArray(int *res, int n) {
-    *res = malloc(n*sizeof(int));
+#include <stdlib.h>
+void fibArray(int *res, int n) {
     for(int i = 0; i<n;i++){
         if(i == 0){
             res[i]=0;
@@ -16,5 +10,15 @@ int fibArray(int *res, int n) {
             res[i]=res[i-2] + res[i-1];
         }
     }
-    return res;
+}
+
+int main(void) {
+    int n;
+    scanf("%i",&n);
+    int *res = malloc(n*sizeof(int));
+    fibArray(res,n);
+    for(int i =0;i<n;i++){
+        printf("%d",res[i]);
+    }
+
 }
