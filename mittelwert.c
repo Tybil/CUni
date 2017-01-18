@@ -8,6 +8,6 @@
           z++;
           }
       double a = mittelwert/z; 
-      printf("%f",a);
+      printf("%f\n",a);
 
  }
