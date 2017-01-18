@@ -7,7 +7,7 @@
           mittelwert = mittelwert + x;
           z++;
           }
-      double a = mittelwert/z; 
+      double a =1.0* mittelwert/z; 
       printf("%f\n",a);
 
  }
