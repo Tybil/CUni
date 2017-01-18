@@ -4,8 +4,7 @@
       int y=1;
       int z = 0;
       int mittelwert = 0;
-      while(y!=0) {
-          y = scanf("%i",&x);
+      while(scanf("%i",&x)==1) {
           mittelwert = mittelwert + x;
           z++;
           }
