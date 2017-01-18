@@ -18,7 +18,6 @@ int main(void) {
     int *res = malloc(n*sizeof(int));
     fibArray(res,n);
     for(int i =0;i<n;i++){
-        printf("%d",res[i]);
+        printf("%d\n",res[i]);
     }
-
 }
