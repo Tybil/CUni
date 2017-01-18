@@ -1,4 +1,7 @@
 #include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 bool contains(char const *search, int searchSize, char const *input, int inputSize){
     bool a=false;
@@ -18,7 +21,16 @@ bool contains(char const *search, int searchSize, char const *input, int inputSi
     return false;
 }
 
-int main(void){
-    //TODO
+int main(int argc, char *argv[]){
+    char *s = malloc(1024*sizeof(char));
+    int a = 1;
+    while(*s=fgets(s,1024,stdin)!=NULL){
+        if(contains(argv[1],strlen(argv[1]),s,strlen(s))){
+            printf("%i",a);
+        }
+        a++;
+    }
+    printf("%i",a);
+
     return 0;
 }
