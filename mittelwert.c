@@ -3,7 +3,7 @@
       int x;
       int z = 0;
       int summe = 0;
-      while(scanf("%i",&x)==1) {
+      while(scanf("%i",&x)!=-1) {
           summe = summe + x;
           z++;
           }
