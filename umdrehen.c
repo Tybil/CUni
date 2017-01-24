@@ -6,7 +6,7 @@ int main(void){
     int a = 8;
     int x;
     int z=0;
-    while(scanf("%i",&x)==1) {
+    while(scanf("%i",&x)!=-1) {
         if(z>=a){
             a = a+8;
             input = realloc(input,a*sizeof(int));
