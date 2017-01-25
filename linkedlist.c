@@ -158,7 +158,7 @@ void list_add_before(linked_list_t *ll, int x, int y)
     printf("Couldn't allocate new node");
     exit(-1);
   }
-  for(node_t *n = ll->first; n; n=n->next) {
+  for(node_t *n = ll->first; n->next; n=n->next) {
     if(n->next->value == y) {
       new_node->value = x;
       new_node->next = n->next;
@@ -182,7 +182,7 @@ int main(void)
   add_elem(ll,1);
   add_elem(ll,2);
   add_elem(ll,3);
-  list_add_before(ll,10,2);
+  list_add_before(ll,10,1);
   
   print_list(ll);
   
