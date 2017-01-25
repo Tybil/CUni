@@ -172,11 +172,15 @@ void list_add_before(linked_list_t *ll, int x, int y)
 int list_remove(linked_list_t *ll, int value) {
   int a = 0;
   int pos = 0;
-  node_t *prev;
+  node_t *prev = ll->first;
   for(node_t *n = ll->first; n; n=n->next) {
     if(value == n->value) {
-      n = prev;
-      remove_elem(ll,pos);
+      if(pos!=0){
+        remove_elem(ll,pos);
+        n=prev;
+      } else {
+        ll->first = ll->first->next;
+      }
       a++;
     } else {
       pos++;
@@ -191,16 +195,5 @@ int list_remove(linked_list_t *ll, int value) {
 
 int main(void)
 {
-  linked_list_t *ll = new_list();
-  add_elem(ll,1);
-  add_elem(ll,2);
-  add_elem(ll,9);
-  add_elem(ll,9);
-  add_elem(ll,1);
-  add_elem(ll,9);
-  int a =list_remove(ll,9);
-  printf("%i\n",a);
-  print_list(ll);
-
 
 }
