@@ -18,8 +18,14 @@ typedef struct dictionary
 
 dictionary *dict_new()
 {
-    // Aufgabe a)
-    return NULL;
+    dictionary *d = calloc(1, sizeof(dictionary));
+    if (d)
+    {
+        return d;
+    } else {
+        printf("Couldn't allocate dictionary");
+        abort(); // Programmabbruch
+    }
 }
 
 void dict_put(dictionary *dict, char *key, char *value)
