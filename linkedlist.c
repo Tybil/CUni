@@ -172,13 +172,16 @@ void list_add_before(linked_list_t *ll, int x, int y)
 int list_remove(linked_list_t *ll, int value) {
   int a = 0;
   int pos = 0;
+  node_t *prev;
   for(node_t *n = ll->first; n; n=n->next) {
     if(value == n->value) {
+      n = prev;
       remove_elem(ll,pos);
       a++;
     } else {
       pos++;
     }
+    prev = n;
   }
   return a;
 }
