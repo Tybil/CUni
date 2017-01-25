@@ -116,15 +116,26 @@ void free_list(linked_list_t *ll)
 
 bool list_is_sorted(linked_list_t *ll)
 {
-  // Aufgabe a)
-  return false;
+  if(is_empty(ll)){
+    return true;
+  }
+  int prev = ll->first->value;
+  for (node_t *n = ll->first; n; n = n->next)
+  {
+    if(prev>n->value) {
+      return false;
+    }
+    prev = n->value;
+  }
+
+  return true;
 }
 
 
 
 bool list_has_duplicates(linked_list_t *ll)
 {
-  // Aufgabe b)
+  
   return false;
 }
 
@@ -142,5 +153,14 @@ int list_remove(linked_list_t *ll, int value)
 
 int main(void)
 {
-
+  linked_list_t *ll = new_list();
+  add_elem(ll,1);
+  add_elem(ll,2);
+  add_elem(ll,3);
+  if(list_is_sorted(ll)){
+    printf("ist sortiert\n");
+  } else {
+    print_list(ll);
+  }
+  free_list(ll);
 }
