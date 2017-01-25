@@ -148,7 +148,25 @@ bool list_has_duplicates(linked_list_t *ll)
 
 void list_add_before(linked_list_t *ll, int x, int y)
 {
-  // Aufgabe c)
+  if(ll->first->value==y){
+    add_elem_front(ll,x);
+    return;
+  }
+  node_t *new_node = malloc(sizeof(node_t));
+  if (!new_node)
+  {
+    printf("Couldn't allocate new node");
+    exit(-1);
+  }
+  for(node_t *n = ll->first; n; n=n->next) {
+    if(n->next->value == y) {
+      new_node->value = x;
+      new_node->next = n->next;
+      n->next = new_node;
+      return;
+    }
+  }
+  add_elem(ll,x);
 }
 
 int list_remove(linked_list_t *ll, int value)
@@ -162,12 +180,11 @@ int main(void)
 {
   linked_list_t *ll = new_list();
   add_elem(ll,1);
+  add_elem(ll,2);
   add_elem(ll,3);
-  add_elem(ll,3);
-  if(list_has_duplicates(ll)){
-    printf("hat duplikate\n");
-  } else {
-    print_list(ll);
-  }
+  list_add_before(ll,10,2);
+  
+  print_list(ll);
+  
   free_list(ll);
 }
