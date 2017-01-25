@@ -135,7 +135,14 @@ bool list_is_sorted(linked_list_t *ll)
 
 bool list_has_duplicates(linked_list_t *ll)
 {
-  
+  for(node_t *n = ll->first; n; n=n->next){
+    int n_value = n->value;
+    for(node_t *a = n->next; a; a=a->next) {
+      if(n_value==a->value){
+        return true;
+      }
+    }
+  }
   return false;
 }
 
@@ -155,10 +162,10 @@ int main(void)
 {
   linked_list_t *ll = new_list();
   add_elem(ll,1);
-  add_elem(ll,2);
   add_elem(ll,3);
-  if(list_is_sorted(ll)){
-    printf("ist sortiert\n");
+  add_elem(ll,3);
+  if(list_has_duplicates(ll)){
+    printf("hat duplikate\n");
   } else {
     print_list(ll);
   }
