@@ -18,9 +18,10 @@ typedef struct dictionary
 
 dictionary *dict_new()
 {
-    dictionary *d = calloc(1, sizeof(dictionary));
+    dictionary *d = malloc(sizeof(dictionary));
     if (d)
     {
+        d->root=NULL;
         return d;
     } else {
         printf("Couldn't allocate dictionary");
@@ -30,18 +31,128 @@ dictionary *dict_new()
 
 void dict_put(dictionary *dict, char *key, char *value)
 {
-    // Aufgabe b)
+    if(!dict->root){
+        treenode *n=malloc(sizeof(treenode));
+        n->key = malloc(sizeof(char)*strlen(key));
+        for(int i = 0;i<strlen(key);i++){
+            *(n->key+i)=*(key+i);
+        }
+        n->value = malloc(sizeof(char)*strlen(value));
+        for(int i = 0;i<strlen(value);i++){
+            *(n->value+i)=*(value+i);
+        }
+        dict->root=n;
+        return;
+    }else{
+    if(strcmp(key,dict->root->key)==0){
+        dict->root->value = malloc(sizeof(char)*strlen(value));
+        for(int i = 0;i<strlen(value);i++){
+            *(dict->root->value+i)=*(value+i);
+        }
+        return;
+    }
+    if(strcmp(key,dict->root->key)>0){
+        if(!(dict->root->right)){
+            treenode *n=malloc(sizeof(treenode));
+            n->key = malloc(sizeof(char)*strlen(key));
+            for(int i = 0;i<strlen(key);i++){
+                *(n->key+i)=*(key+i);
+            }
+            n->value = malloc(sizeof(char)*strlen(value));
+            for(int i = 0;i<strlen(value);i++){
+                *(n->value+i)=*(value+i);
+            }
+            dict->root->right = n;
+        } else {
+            dictionary *d = dict_new();
+            d->root = dict->root->right;
+            dict_put(d,key,value);
+        }
+        
+    }
+    if(strcmp(key,dict->root->key)<0){
+        if(!(dict->root->left)){
+            treenode *n=malloc(sizeof(treenode));
+            n->key = malloc(sizeof(char)*strlen(key));
+            for(int i = 0;i<strlen(key);i++){
+                *(n->key+i)=*(key+i);
+            }
+            n->value = malloc(sizeof(char)*strlen(value));
+            for(int i = 0;i<strlen(value);i++){
+                *(n->value+i)=*(value+i);
+            }
+            dict->root->left = n;
+        } else {
+            dictionary *d = dict_new();
+            d->root = dict->root->left;
+            dict_put(d,key,value);
+        }
+    }
+    }
 }
 
 char *dict_get(dictionary *dict, char *key)
 {
-    // Aufgabe c)
+    if(strcmp(key,dict->root->key)==0){
+        return dict->root->value;
+    }
+    if(strcmp(key,dict->root->key)>0){
+        if(dict->root->right==NULL){
+            return NULL;
+        } else {
+            dictionary *d = dict_new();
+            d->root = dict->root->right;
+            return dict_get(d,key);
+        }
+        
+    }
+    if(strcmp(key,dict->root->key)<0){
+        if(dict->root->left==NULL){
+            return NULL;
+        } else {
+            dictionary *d = dict_new();
+            d->root = dict->root->left;
+            return dict_get(d,key);
+        }
+    }
     return NULL;
 }
 
 void dict_free(dictionary *dict)
 {
-    // Aufgabe d)
+    if(dict->root) {
+
+        if(dict->root->left){
+            dictionary *d=dict_new();
+            d->root = dict->root->left;
+            dict_free(d);
+
+        }
+        if(dict->root->right){
+            dictionary *d=dict_new();
+            d->root = dict->root->right;
+            dict_free(d);
+
+        }
+    }
+    if(dict->root->key) {
+        free(dict->root->key);
+    }
+    if(dict->root->value) {
+        free(dict->root->value);
+    }
+    if(dict->root->left) {
+        free(dict->root->left);
+    }
+    if(dict->root->right) {
+        free(dict->root->right);
+    }
+    if(dict->root) {
+        free(dict->root);
+    }
+    free(dict);
+    
+
 }
 
 void dict_delete(dictionary *dict, char *key)
@@ -55,7 +166,7 @@ int main(void)
     dictionary *dict = dict_new();
     int bufferSize = 2048;
     char buffer[bufferSize];
-    while (true)
+    for(int i = 0;i<10;i++)
     {
         char *s = fgets(buffer, bufferSize, stdin);
         if (s == NULL)
@@ -80,14 +191,17 @@ int main(void)
 
         if (strcmp("put", s) == 0)
         {
+            
             char *secondSpace = strchr(key, ' ');
             if (secondSpace == NULL)
             {
                 printf("missing value\n");
                 continue;
             }
+            
             *secondSpace = '\0';
             char *val = secondSpace + 1;
+            
             dict_put(dict, key, val);
         }
         else if (strcmp("get", s) == 0)
@@ -105,4 +219,5 @@ int main(void)
         }
     }
     dict_free(dict);
+    printf("Geschafft");
 }
