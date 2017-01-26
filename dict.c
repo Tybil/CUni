@@ -122,6 +122,7 @@ void dict_free(dictionary *dict)
 {
     if(dict->root) {
 
+
         if(dict->root->left){
             dictionary *d=dict_new();
             d->root = dict->root->left;
@@ -140,12 +141,6 @@ void dict_free(dictionary *dict)
     }
     if(dict->root->value) {
         free(dict->root->value);
-    }
-    if(dict->root->left) {
-        free(dict->root->left);
-    }
-    if(dict->root->right) {
-        free(dict->root->right);
     }
     if(dict->root) {
         free(dict->root);
