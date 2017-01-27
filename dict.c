@@ -149,7 +149,7 @@ int main(void)
     dictionary *dict = dict_new();
     int bufferSize = 2048;
     char buffer[bufferSize];
-    for(int i = 0;i<10;i++)
+    while(true)
     {
         char *s = fgets(buffer, bufferSize, stdin);
         if (s == NULL)
@@ -202,5 +202,4 @@ int main(void)
         }
     }
     dict_free(dict);
-    printf("Geschafft");
 }
