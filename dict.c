@@ -67,6 +67,7 @@ void dict_put(dictionary *dict, char *key, char *value)
             dictionary *d = dict_new();
             d->root = dict->root->right;
             dict_put(d,key,value);
+            free(d);
         }
         
     }
@@ -86,6 +87,7 @@ void dict_put(dictionary *dict, char *key, char *value)
             dictionary *d = dict_new();
             d->root = dict->root->left;
             dict_put(d,key,value);
+            free(d);
         }
     }
     }
