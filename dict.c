@@ -67,6 +67,7 @@ void dict_put(dictionary *dict, char *key, char *value)
             dictionary *d = dict_new();
             d->root = dict->root->right;
             dict_put(d,key,value);
+            free(d);
         }
         
     }
@@ -86,6 +87,7 @@ void dict_put(dictionary *dict, char *key, char *value)
             dictionary *d = dict_new();
             d->root = dict->root->left;
             dict_put(d,key,value);
+            free(d);
         }
     }
     }
@@ -117,43 +119,24 @@ char *dict_get(dictionary *dict, char *key)
     }
     return NULL;
 }
-
+void dict_free_r(treenode *t_node) {
+    if(t_node->right){
+        dict_free_r(t_node->right);
+    }
+    if(t_node->left) {
+        dict_free_r(t_node->left);
+    }
+    free(t_node->value);
+    free(t_node->key);
+    free(t_node);
+}
 void dict_free(dictionary *dict)
 {
-    if(dict->root) {
-
-        if(dict->root->left){
-            dictionary *d=dict_new();
-            d->root = dict->root->left;
-            dict_free(d);
-
-        }
-        if(dict->root->right){
-            dictionary *d=dict_new();
-            d->root = dict->root->right;
-            dict_free(d);
-
-        }
-    }
-    if(dict->root->key) {
-        free(dict->root->key);
-    }
-    if(dict->root->value) {
-        free(dict->root->value);
-    }
-    if(dict->root->left) {
-        free(dict->root->left);
-    }
-    if(dict->root->right) {
-        free(dict->root->right);
-    }
-    if(dict->root) {
-        free(dict->root);
-    }
+    dict_free_r(dict->root);
     free(dict);
-    
-
 }
+
+
 
 void dict_delete(dictionary *dict, char *key)
 {
@@ -166,7 +149,7 @@ int main(void)
     dictionary *dict = dict_new();
     int bufferSize = 2048;
     char buffer[bufferSize];
-    for(int i = 0;i<10;i++)
+    while(true)
     {
         char *s = fgets(buffer, bufferSize, stdin);
         if (s == NULL)
@@ -219,5 +202,4 @@ int main(void)
         }
     }
     dict_free(dict);
-    printf("Geschafft");
 }
