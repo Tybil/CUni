@@ -2,6 +2,14 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Debug",
+            "type": "gdb",
+            "request": "launch",
+            "target": "main.exe",
+            "terminal": "cmd",
+            "cwd": "${workspaceRoot}"
+        }
+        {
             "name": "C++ Launch",
             "type": "cppdbg",
             "request": "launch",
