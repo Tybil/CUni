@@ -34,15 +34,9 @@ void dict_put(dictionary *dict, char *key, char *value)
     if(!dict->root){
         treenode *n=malloc(sizeof(treenode));
         n->key = malloc(sizeof(char)*strlen(key));
-        int g = strlen(key);
-        for(int i = 0;i<strlen(key);i++){
-            *(n->key+i)=*(key+i);
-        }
+        strcpy(n->key,key);
         n->value = malloc(sizeof(char)*strlen(value));
-        int z = strlen(value);
-        for(int i = 0;i<z;i++){
-            *(n->value+i)=*(value+i);
-        }
+        strcpy(n->value,value);
         n->right=NULL;
         n->left=NULL;
         dict->root=n;
@@ -50,22 +44,16 @@ void dict_put(dictionary *dict, char *key, char *value)
     }else{
     if(strcmp(key,dict->root->key)==0){
         dict->root->value = malloc(sizeof(char)*strlen(value));
-        for(int i = 0;i<strlen(value);i++){
-            *(dict->root->value+i)=*(value+i);
-        }
+        strcpy(dict->root->value,value);
         return;
     }
     if(strcmp(key,dict->root->key)>0){
         if(!(dict->root->right)){
             treenode *n=malloc(sizeof(treenode));
             n->key = malloc(sizeof(char)*strlen(key));
-            for(int i = 0;i<strlen(key);i++){
-                *(n->key+i)=*(key+i);
-            }
+            strcpy(n->key,key);
             n->value = malloc(sizeof(char)*strlen(value));
-            for(int i = 0;i<strlen(value);i++){
-                *(n->value+i)=*(value+i);
-            }
+            strcpy(n->value,value);
             n->right=NULL;
             n->left=NULL;
             dict->root->right = n;
@@ -81,13 +69,9 @@ void dict_put(dictionary *dict, char *key, char *value)
         if(!(dict->root->left)){
             treenode *n=malloc(sizeof(treenode));
             n->key = malloc(sizeof(char)*strlen(key));
-            for(int i = 0;i<strlen(key);i++){
-                *(n->key+i)=*(key+i);
-            }
+            strcpy(n->key,key);
             n->value = malloc(sizeof(char)*strlen(value));
-            for(int i = 0;i<strlen(value);i++){
-                *(n->value+i)=*(value+i);
-            }
+            strcpy(n->value,value);
             n->right=NULL;
             n->left=NULL;
             dict->root->left = n;
