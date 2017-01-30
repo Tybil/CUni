@@ -34,11 +34,13 @@ void dict_put(dictionary *dict, char *key, char *value)
     if(!dict->root){
         treenode *n=malloc(sizeof(treenode));
         n->key = malloc(sizeof(char)*strlen(key));
+        int g = strlen(key);
         for(int i = 0;i<strlen(key);i++){
             *(n->key+i)=*(key+i);
         }
         n->value = malloc(sizeof(char)*strlen(value));
-        for(int i = 0;i<strlen(value);i++){
+        int z = strlen(value);
+        for(int i = 0;i<z;i++){
             *(n->value+i)=*(value+i);
         }
         n->right=NULL;
