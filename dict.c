@@ -41,6 +41,8 @@ void dict_put(dictionary *dict, char *key, char *value)
         for(int i = 0;i<strlen(value);i++){
             *(n->value+i)=*(value+i);
         }
+        n->right=NULL;
+        n->left=NULL;
         dict->root=n;
         return;
     }else{
@@ -62,6 +64,8 @@ void dict_put(dictionary *dict, char *key, char *value)
             for(int i = 0;i<strlen(value);i++){
                 *(n->value+i)=*(value+i);
             }
+            n->right=NULL;
+            n->left=NULL;
             dict->root->right = n;
         } else {
             dictionary *d = dict_new();
@@ -82,6 +86,8 @@ void dict_put(dictionary *dict, char *key, char *value)
             for(int i = 0;i<strlen(value);i++){
                 *(n->value+i)=*(value+i);
             }
+            n->right=NULL;
+            n->left=NULL;
             dict->root->left = n;
         } else {
             dictionary *d = dict_new();
@@ -95,6 +101,9 @@ void dict_put(dictionary *dict, char *key, char *value)
 
 char *dict_get(dictionary *dict, char *key)
 {
+    if(!dict->root) {
+        return NULL;
+    }
     if(strcmp(key,dict->root->key)==0){
         return dict->root->value;
     }
