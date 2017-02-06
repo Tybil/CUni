@@ -65,7 +65,7 @@ void remove_elem(linked_list_t *ll, int pos)
   while (pos > 0 && (*prev)->next)
   {
     pos--;
-    prev = &(*prev)->next;
+    prev = &((*prev)->next);
   }
   node_t *n = *prev;
   if (!pos)
@@ -116,18 +116,18 @@ void free_list(linked_list_t *ll)
 
 bool list_is_sorted(linked_list_t *ll)
 {
-  if(is_empty(ll)){
+  if (is_empty(ll))
+  {
     return true;
   }
   int prev = ll->first->value;
   for (node_t *n = ll->first; n; n = n->next)
   {
-    if(prev>n->value) {
+    if (prev > n->value){
       return false;
     }
     prev = n->value;
   }
-
   return true;
 }
 
@@ -135,10 +135,12 @@ bool list_is_sorted(linked_list_t *ll)
 
 bool list_has_duplicates(linked_list_t *ll)
 {
-  for(node_t *n = ll->first; n; n=n->next){
-    int n_value = n->value;
-    for(node_t *a = n->next; a; a=a->next) {
-      if(n_value==a->value){
+  for(node_t *n = ll->first; n; n = n->next)
+  {
+    for(node_t *m = n->next; m; m = m->next)
+    {
+      if(n->value == m->value)
+      {
         return true;
       }
     }
@@ -148,52 +150,128 @@ bool list_has_duplicates(linked_list_t *ll)
 
 void list_add_before(linked_list_t *ll, int x, int y)
 {
-  if(ll->first->value==y){
-    add_elem_front(ll,x);
+  if (ll->first->value == y)
+  {
+    add_elem_front(ll, x);
     return;
   }
+
+  // Alloziere neue Knoten-Stuktur
   node_t *new_node = malloc(sizeof(node_t));
   if (!new_node)
   {
     printf("Couldn't allocate new node");
     exit(-1);
   }
-  for(node_t *n = ll->first; n->next; n=n->next) {
-    if(n->next->value == y) {
-      new_node->value = x;
-      new_node->next = n->next;
-      n->next = new_node;
-      return;
+
+  for(node_t *n = ll->first; n->next; n = n->next)
+  {
+    if(n->next->value == y)
+    {
+    // Initalisiere den neuen Knoten
+    new_node->value = x;
+    new_node->next = n->next;
+    n->next = new_node;
+    return;
     }
   }
-  add_elem(ll,x);
+  add_elem(ll, x);
 }
 
-int list_remove(linked_list_t *ll, int value) {
-  int a = 0;
+int list_remove(linked_list_t *ll, int value)
+{
   int pos = 0;
-  node_t *prev = ll->first;
-  for(node_t *n = ll->first; n; n=n->next) {
-    if(value == n->value) {
-      if(pos!=0){
-        remove_elem(ll,pos);
-        n=prev;
+  int a = 0;
+  node_t *help;
+  for(node_t *n = ll->first; n; n = n->next)
+  {
+    if (n->value == value)
+    {
+      //list_remove
+      if (pos!=0)
+      {
+        remove_elem(ll, pos);
+        n=help;
       } else {
         ll->first = ll->first->next;
       }
       a++;
+      
     } else {
       pos++;
     }
-    prev = n;
+    help = n;
   }
   return a;
 }
 
+void merge (linked_list_t *ll1, linked_list_t *ll2,int size){
+  node_t *n2=ll2->first;
+  node_t *n1=ll1->first;
+  node_t *prev=NULL;
+  while(n1&&n2){
+    if(n1->value<=n2->value){
+      prev=n1;
+      n1=n1->next;
+    } else {
+      if(prev==NULL){
+        node_t *help = n2->next;
+        ll1->first=n2;
+        n2->next=n1;
+        prev=n2;
+        n2=help;
+      } else {
+        node_t *help = n2->next;
+        prev->next=n2;
+        n2->next = n1;
+        prev = n2;
+        n2=help;
+      }
+    }
+  }
+  while(n2){
+    prev->next=n2;
+    prev=prev->next;
+    n2=n2->next;
+  }
+}
 
+void sort(linked_list_t *ll){
+  if(ll->first->next){
+    int i=0;
+    for(node_t *n=ll->first;n;n=n->next){
+      i++;
+    }
+    node_t *n=ll->first;
+    for(int a=0;a<(i/2)-1;a++){
+      n=n->next;
+    }
+    linked_list_t *llh=new_list();
+    llh->first=n->next;
+    n->next=NULL;
+    sort(ll);
+    sort(llh);
+    merge(ll,llh, i);
+  }
+}
 
 
 int main(void)
 {
-
+  
+  //Test
+  
+  linked_list_t *ll = new_list();
+  add_elem(ll, 2);
+  add_elem(ll, 1);
+  add_elem(ll, 3);
+  add_elem(ll, 4);
+  add_elem(ll, 5);
+  add_elem(ll, 6);
+  add_elem(ll, 8);
+  add_elem(ll, 7);
+  sort(ll);
+  printf("%i",list_is_sorted(ll));
+  print_list(ll);
+  free_list(ll);
 }
